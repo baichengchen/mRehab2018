@@ -154,7 +154,12 @@ public class WO_PhoneNumber extends TouchWorkoutAbstract {
 		Float touches = Float.valueOf(10 * this.reps);
 		return new WorkoutScore("Accuracy", ((touches) / ((touches) + incorrect)) * 100f);
 	}
-
+/*
+	@Override
+	public ArrayList<Float> getScores() {
+		return accuracies;
+	}
+*/
 	public boolean checkDone() {
 		return workoutComplete;
 	}

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -81,6 +82,7 @@ public class PostWorkoutReportActivity extends AppCompatActivity {
 		String accuracyWording = "";
 		for (WorkoutJSON workoutJSON : workoutJSONS) {
 			if (workoutJSON.getWorkoutName().equals(getIntent().getStringExtra("Workout"))) {
+			    Log.d("Filtering JSON",workoutJSON.toString());
 				workoutJSONSFiltered.add(workoutJSON);
 			}
 		}
@@ -96,7 +98,9 @@ public class PostWorkoutReportActivity extends AppCompatActivity {
 				break;
 			}
 		}
+		Log.d("WorkoutJSON",workoutJSONSFiltered.toString());
 		Collections.sort(workoutJSONSFiltered, workoutJSONComparator);
+
 		thisWorkout = workoutJSONSFiltered.get(0);
 		betterReps = false;
 		betterSmoothness = false;

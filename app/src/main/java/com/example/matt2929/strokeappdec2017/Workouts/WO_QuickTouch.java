@@ -150,7 +150,19 @@ public class WO_QuickTouch extends TouchWorkoutAbstract {
 		return new WorkoutScore("Accuracy", ((((float) reps * 6f) - (float) incorrect)) / ((float) reps * 6f) * 100f);
 
 	}
+/*
+	@Override
+	public ArrayList<Float> getScores() {
+		ArrayList<Float> Scores = new ArrayList<>();
+		for(int x = 1;x<reps;x++)
+		{
+			float score = ((((float) x * 6f) - (float) incorrect)) / ((float) x * 6f) * 100f;
+			Scores.add(score);
+		}
 
+		return Scores;
+	}
+*/
 	@Override
 	public void StartWorkout() {
 		super.StartWorkout();

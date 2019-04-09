@@ -70,19 +70,19 @@ public class SaveCalendarDateJSON {
 		Log.e("dom", "" + calendarDateJSON.dayOfMonth);
 	}
 
-	public void addCalendarDate(int dom, int month, int year) {
-		String filename = "Calendar_" + WorkoutData.UserName + ".json";
-		FileOutputStream outputStream;
-		calendarDateJSON = new CalendarDateJSON(month, dom, year);
-		try {
-			outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-			outputStream.write(calendarDateJSON.getJSONString().getBytes());
-			outputStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Toast.makeText(context, "Failure to save", Toast.LENGTH_SHORT).show();
-		}
-	}
+//	public void addCalendarDate(int dom, int month, int year) {
+//		String filename = "Calendar_" + WorkoutData.UserName + ".json";
+//		FileOutputStream outputStream;
+//		calendarDateJSON = new CalendarDateJSON(month, dom, year);
+//		try {
+//			outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+//			outputStream.write(calendarDateJSON.getJSONString().getBytes());
+//			outputStream.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Toast.makeText(context, "Failure to save", Toast.LENGTH_SHORT).show();
+//		}
+//	}
 
 	private List<File> getAllFiles(File parentDir) {
 		List<File> inFiles = new ArrayList<>();

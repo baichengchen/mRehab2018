@@ -52,6 +52,7 @@ public class JerkScoreCalculation {
 	}
 
 	public float CalculateJerkAverage() {
+		Log.d("Average Jerk:" ,"Size: "+ jerkScores.size());
 		double sum = 0;
 		for (float f : jerkScores) {
 			sum += f;
@@ -60,6 +61,7 @@ public class JerkScoreCalculation {
 	}
 
 	public ArrayList<Float> GetAllJerks() {
-		return jerkScores;
+        Log.d("Before return Jerk" ,"Size: "+ jerkScores.size());
+	    return jerkScores;
 	}
 }

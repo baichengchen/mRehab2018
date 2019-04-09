@@ -1,6 +1,7 @@
 package com.example.matt2929.strokeappdec2017.SaveAndLoadData;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -50,9 +51,9 @@ public class SaveAndWriteUserInfo {
                     }else{
 
                     }
-	                return user;
                 }
                 br.close();
+                return user;
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

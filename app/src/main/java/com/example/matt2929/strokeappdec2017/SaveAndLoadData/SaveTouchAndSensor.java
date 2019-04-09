@@ -29,9 +29,12 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 	String heading;
 	UploadToAmazonBucket uploadToAmazonBucket;
 	Calendar cal;
-	private Float Duration, Smoothness;
+	private Float Duration, Score;
 	private Integer Reps;
 	private String Hand;
+
+	private ArrayList<Float> Durations = new ArrayList<>();
+	private ArrayList<Float> Scores = new ArrayList<>();
 
 	public SaveTouchAndSensor(Context context, String workoutName, String heading) {
 		_workoutName = workoutName;
@@ -44,7 +47,7 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 		int minute = cal.get(Calendar.MINUTE);
 		int second = cal.get(Calendar.SECOND);
 		this.heading = heading;
-		_fileName = WorkoutData.UserName + "_" + workoutName + "_" + "FullVersion" + "_" + (month + 1) + "-" + day + "-" + year + "_[" + hour + "h~" + minute + "m~" + second + "s].csv";
+		_fileName = WorkoutData.UserName + "_" + workoutName + "_" + "FullVersion" + "_" + (month) + "-" + day + "-" + year + "_[" + hour + "h~" + minute + "m~" + second + "s]_CSV.csv";
 		uploadToAmazonBucket = new UploadToAmazonBucket(_context);
 	}
 
@@ -52,19 +55,41 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 		dataQueue.add(data);
 
 	}
-
-	public void saveAllData(Float Duration, Float Smoothness, Integer Reps, String Hand) {
+	public void saveAllData(Float Duration,Float Score,ArrayList<Float> Durations, ArrayList<Float> Scores, Integer Reps, String Hand) {
 		this.Duration = Duration;
-		this.Smoothness = Smoothness;
+		this.Durations = Durations;
+		this.Score = Score;
+		this.Scores = Scores;
+		Log.d("Size","Scores..."+Scores.size());
+		Log.d("Size","Durations..."+Durations.size());
 		this.Reps = Reps;
 		this.Hand = Hand;
 		this.execute();
 	}
-
+	/*
+	public void saveAllData(Float Duration,ArrayList<Float> Durations, Float Smoothness, Integer Reps, String Hand) {
+		this.Duration = Duration;
+		this.Durations = Durations;
+		this.Smoothness = Smoothness;
+		Log.d("Size","Durations..."+Durations.size());
+		this.Reps = Reps;
+		this.Hand = Hand;
+		this.execute();
+	}
+	public void saveAllData(Float Duration,Float Smoothness,ArrayList<Float> Smoothnesses,  Integer Reps, String Hand) {
+		this.Duration = Duration;
+		this.Smoothness = Smoothness;
+		this.Smoothnesses = Smoothnesses;
+		Log.d("Size","Smoothnesses..."+Smoothnesses.size());
+		this.Reps = Reps;
+		this.Hand = Hand;
+		this.execute();
+	}
+	*/
 	@Override
 	protected Void doInBackground(Void... voids) {
 		try {
-			File fileParent = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "RehabApplication");
+			File fileParent = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "RehabApplicationCSV2019");
 			if (!fileParent.exists()) {
 				fileParent.mkdir();
 			}
@@ -77,12 +102,31 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 			try {
 				file.createNewFile();
 				writer = new PrintWriter(new FileWriter(file, true));
+
+				String d = "";
+				for(int x = 0;x<Durations.size() && x<Reps;x++)
+				{
+					if(Durations.size() == 1) {
+						break;
+					}
+
+					d += "Duration#" +(x+1)+":"+this.Durations.get(x)+",";
+				}
+				String s = "";
+				for(int x = 0;x<Scores.size() && x<Reps;x++)
+				{
+					if(Scores.size() == 1) {
+						break;
+					}
+					s += "Score#" +(x+1)+":"+this.Scores.get(x)+",";
+				}
+
 				writer.append("Name:" + WorkoutData.UserName + ","
 						+ "Workout:" + _workoutName + ","
 						+ "Date HR:" + humanReadableTime(cal.getTimeInMillis()) + ","
 						+ "Date MS:" + cal.getTimeInMillis() + ","
-						+ "Duration:" + this.Duration + ","
-						+ "Smoothness:" + this.Smoothness + ","
+						+ "Duration:" + this.Duration + ","+d
+						+ "Score:" + this.Score + ","+s
 						+ "Reps:" + this.Reps + ","
 						+ "Hand:" + this.Hand
 						+ "\n" + heading + "\n");

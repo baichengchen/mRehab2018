@@ -24,6 +24,7 @@ import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveActivitiesDoneT
 import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveHistoricalReps;
 import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveTouchAndSensor;
 import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveWorkoutJSON;
+import com.example.matt2929.strokeappdec2017.Utilities.JerkScoreCalculation;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 import com.example.matt2929.strokeappdec2017.Utilities.Text2Speech;
 import com.example.matt2929.strokeappdec2017.Values.WorkoutData;
@@ -63,7 +64,8 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 	private SaveTouchAndSensor _SaveTouchAndSensor;
 	private SaveWorkoutJSON _SaveWorkoutJSON;
 	private Boolean _WorkoutInProgress = false;
-	private ArrayList<Long> saveDurations = new ArrayList<>();
+	private ArrayList<Float> saveDurations = new ArrayList<>();
+	private ArrayList<Float> saveScores = new ArrayList<>();
 	private SaveActivitiesDoneToday _SaveActivitiesDoneToday;
 
 	@Override
@@ -244,7 +246,8 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 		EndRepTrigger endRepTrigger = new EndRepTrigger() {
 			@Override
 			public void endRep() {
-				saveDurations.add(System.currentTimeMillis() - TimeOfRep);
+				saveDurations.add(((float) (System.currentTimeMillis() - TimeOfRep))/1000);
+				saveScores.add(_CurrentWorkout.getScore().getScore());
 				TimeOfRep = System.currentTimeMillis();
 			}
 		};
@@ -307,9 +310,11 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 	public void endWorkoutSequence() {
 		_SFXPlayer.killAll();
 		_SaveHistoricalReps.updateWorkout(_CurrentWorkout.getName(), _WorkoutReps);
-		Float duration = averageTime(saveDurations) / (float) (1000);
-		_SaveTouchAndSensor.saveAllData(duration, _CurrentWorkout.getScore().getScore(), _CurrentWorkout.getReps(), _WorkoutHand);
-		_SaveWorkoutJSON.addNewWorkout(_CurrentWorkout.getName(), _WorkoutHand, duration, _CurrentWorkout.getScore().getScore(), _CurrentWorkout.getReps());
+		Float duration = averageTime(saveDurations);
+		Float score = averageTime(saveScores);
+
+		_SaveTouchAndSensor.saveAllData(duration, score, saveDurations,saveScores, _CurrentWorkout.getReps(), _WorkoutHand);
+		_SaveWorkoutJSON.addNewWorkout(_CurrentWorkout.getName(), _WorkoutHand, duration,saveDurations, score,saveScores, _CurrentWorkout.getReps());
 		_SaveActivitiesDoneToday.updateWorkout(_WorkoutName);
 		Intent intent = getIntent();
 		intent.setClass(getApplicationContext(), LoadingScreenActivity.class);
@@ -317,12 +322,12 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 
 	}
 
-	public float averageTime(ArrayList<Long> longs) {
+	public float averageTime(ArrayList<Float> floats) {
 		float sum = 0L;
-		for (int i = 0; i < longs.size(); i++) {
-			sum += longs.get(i);
+		for (int i = 0; i < floats.size(); i++) {
+			sum += floats.get(i);
 		}
-		float value = ((sum / (Long.valueOf(longs.size()))));
+		float value = sum / floats.size() ;
 		return value;
 	}
 }

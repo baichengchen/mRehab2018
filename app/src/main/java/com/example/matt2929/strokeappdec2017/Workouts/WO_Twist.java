@@ -9,6 +9,8 @@ import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.SpeechTrigger;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 import com.example.matt2929.strokeappdec2017.Utilities.ZeroCrossCalculation;
 
+import java.util.ArrayList;
+
 /**
  * Created by matt2929 on 12/21/17.
  */
@@ -53,5 +55,10 @@ public class WO_Twist extends SensorWorkoutAbstract {
 	public WorkoutScore getScore() {
 		workoutScore = new WorkoutScore("Accuracy", zeroCrossCalculation.calculateZeroCross());
 		return workoutScore;
+	}
+
+	@Override
+	public ArrayList<Float> getJerkScores() {
+		return zeroCrossCalculation.getZeroCrosses();
 	}
 }

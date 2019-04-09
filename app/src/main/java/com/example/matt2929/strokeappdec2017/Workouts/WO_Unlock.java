@@ -61,6 +61,7 @@ public class WO_Unlock extends TouchWorkoutAbstract {
 		countReps++;
 		speechTrigger.speak("" + countReps);
 		zeroCrossCalculation.endRep();
+		//accuracies.add(zeroCrossCalculation.getZeroCrosses())
 		endRepTrigger.endRep();
 		if (countReps == reps) {
 			workoutComplete = true;
@@ -85,6 +86,8 @@ public class WO_Unlock extends TouchWorkoutAbstract {
 	public WorkoutScore getScore() {
 		return new WorkoutScore("Smoothness", zeroCrossCalculation.calculateZeroCross());
 	}
-
-
+	@Override
+	public ArrayList<Float> getScores() {
+		return zeroCrossCalculation.getZeroCrosses();
+	}
 }

@@ -115,7 +115,6 @@ public class HistoryViewActivity extends AppCompatActivity {
 			for (WorkoutDescription workoutDescription : WorkoutData.WORKOUT_DESCRIPTIONS) {
 				if (workoutDescription.getName().equals(workoutName)) {
 					color = workoutDescription.getColor();
-
 				}
 			}
 		} else {
@@ -126,18 +125,20 @@ public class HistoryViewActivity extends AppCompatActivity {
 		graphLeft.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				leftHandView();
-				handToGraph = "Left";
-				setUpGraph(workoutJSONS, workoutType);
+                Log.d("WorkOutHistoryTag", new String(workoutStrings.size()+""));
+                leftHandView();
+                handToGraph = "Left";
+                setUpGraph(workoutJSONS, workoutType);
 			}
 		});
 
 		graphRight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				rightHandView();
-				handToGraph = "Right";
-				setUpGraph(workoutJSONS, workoutType);
+                Log.d("WorkOutHistoryTag", new String(workoutStrings.size()+""));
+                rightHandView();
+                handToGraph = "Right";
+                setUpGraph(workoutJSONS, workoutType);
 			}
 		});
 		nextWorkout.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +147,11 @@ public class HistoryViewActivity extends AppCompatActivity {
 				workoutIndex++;
 				if (workoutIndex >= workoutStrings.size()) {
 					workoutIndex = 0;
+				}
+				if(workoutStrings.size() == 0)
+				{
+					Log.d("WorkoutHMap","workout strings.size == 0");
+					return;
 				}
 				workoutName = workoutStrings.get(workoutIndex);
 				for (WorkoutDescription workoutDescription : WorkoutData.WORKOUT_DESCRIPTIONS) {
@@ -169,8 +175,13 @@ public class HistoryViewActivity extends AppCompatActivity {
 			public void onClick(View view) {
 				workoutIndex--;
 				if (workoutIndex < 0) {
-					workoutIndex = workoutStrings.size() - 1;
+					workoutIndex = 0;
 				}
+                if(workoutStrings.size() == 0)
+                {
+                    Log.d("WorkoutHMap","workout strings.size == 0");
+                    return;
+                }
 				workoutName = workoutStrings.get(workoutIndex);
 				for (WorkoutDescription workoutDescription : WorkoutData.WORKOUT_DESCRIPTIONS) {
 					if (workoutDescription.getName().equals(workoutName)) {

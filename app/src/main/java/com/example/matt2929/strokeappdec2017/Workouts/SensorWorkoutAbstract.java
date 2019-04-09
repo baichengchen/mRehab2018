@@ -5,7 +5,10 @@ import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.OutputWorkoutD
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.OutputWorkoutStrings;
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.SpeechTrigger;
 import com.example.matt2929.strokeappdec2017.Utilities.AverageValue;
+import com.example.matt2929.strokeappdec2017.Utilities.JerkScoreCalculation;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
+
+import java.util.ArrayList;
 
 /**
  * Created by matt2929 on 12/19/17.
@@ -13,9 +16,14 @@ import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 
 public abstract class SensorWorkoutAbstract extends WorkoutAbstract {
 
+    private JerkScoreCalculation jerkScoreCalculation;
 
     public void SensorWorkout(String Name, Integer reps, SpeechTrigger speechTrigger, EndRepTrigger endRepTrigger, SFXPlayer sfxPlayer, OutputWorkoutData outputWorkoutData, OutputWorkoutStrings outputWorkoutStrings) {
         super.Workout(Name, reps, speechTrigger, endRepTrigger, sfxPlayer, outputWorkoutData, outputWorkoutStrings);
+    }
+
+    public ArrayList<Float> getJerkScores() {
+        return jerkScoreCalculation.GetAllJerks();
     }
 
     public void SensorDataIn(float[] data) {

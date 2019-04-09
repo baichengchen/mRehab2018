@@ -1,5 +1,6 @@
 package com.example.matt2929.strokeappdec2017.Workouts;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class TouchWorkoutAbstract extends WorkoutAbstract {
 	ArrayList<View> views = new ArrayList<>();
 
+
 	public void TouchWorkout(String Name, Integer reps, ArrayList<View> views, EndRepTrigger endRepTrigger, SpeechTrigger speechTrigger, SFXPlayer sfxPlayer, OutputWorkoutData outputWorkoutData, OutputWorkoutStrings outputWorkoutStrings) {
 		super.Workout(Name, reps, speechTrigger, endRepTrigger, sfxPlayer, outputWorkoutData, outputWorkoutStrings);
 		this.views = views;
@@ -31,4 +33,9 @@ public class TouchWorkoutAbstract extends WorkoutAbstract {
 	public void Update() {
 
 	}
+
+	public ArrayList<Float> getScores(){
+		Log.d("Error","Orig TouchWorkoutAbstract getScores() called. Returned NULL.");
+		return null;
+	};
 }
