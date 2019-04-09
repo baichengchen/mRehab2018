@@ -16,6 +16,8 @@ import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveWorkoutJSON;
 import com.example.matt2929.strokeappdec2017.Values.WorkoutData;
 import com.example.matt2929.strokeappdec2017.Workouts.WorkoutDescription;
 
+import java.util.ArrayList;
+
 public class PutPhoneInContainer extends AppCompatActivity {
 	LinearLayout isPhoneInCup;
 	Button inCupYes, inCupNo;
@@ -87,7 +89,11 @@ public class PutPhoneInContainer extends AppCompatActivity {
 			public void onClick(View v) {
 				if (printName.equals(WorkoutData.Print_Container_Bowl)) {
 					Long duration = Math.abs(timer - System.currentTimeMillis());
-					saveWorkoutJSON.addNewWorkout("Put in cup", "Left", duration / Long.valueOf(1000), Long.valueOf(100), 1);
+					ArrayList<Float> scores = new ArrayList<Float>();
+					ArrayList<Float> durations = new ArrayList<Float>();
+					scores.add((float) 1);
+					durations.add((float) 1);
+					saveWorkoutJSON.addNewWorkout("Put in cup", "Left", duration / Long.valueOf(1000),durations, Long.valueOf(100), scores,1);
 				}
 				Intent intent = getIntent();
 				intent.setClass(getApplicationContext(), GoalsAndRepsActivity.class);
