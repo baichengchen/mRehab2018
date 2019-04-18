@@ -45,7 +45,7 @@ public class CreateNewUserActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                newUser.setName((nameEnter.getText().toString()) + "_BASELINE");
+                newUser.setName((nameEnter.getText().toString()) + "_FINAL");
 
             }
 
