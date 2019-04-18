@@ -110,7 +110,7 @@ public class UploadToAmazonBucket {
 	public void saveData(File file) {
 		fileName = file.getName();
 		if (!file.exists()) {
-			Log.e("saveAllData file to bucket", "That file doesnt Exist?");
+			Log.e("UploadTag_Bucket", "That file doesnt Exist?");
 		} else {
 			String path = file.getPath();
 			beginUpload(path, file.getName());
@@ -198,7 +198,7 @@ public class UploadToAmazonBucket {
 		public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
 			if (fileName.contains(".csv")) {
 				WorkoutData.progressCloud = Float.valueOf(((float) bytesCurrent / (float) bytesTotal) * 100f);
-				Log.e("Tag", WorkoutData.progressCloud + "% " + bytesCurrent + "bytes " + fileName);
+				Log.e("UploadTag", WorkoutData.progressCloud + "% " + bytesCurrent + "bytes " + fileName);
 			}
 		}
 

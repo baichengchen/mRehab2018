@@ -33,6 +33,7 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 	private Integer Reps;
 	private String Hand;
 
+
 	private ArrayList<Float> Durations = new ArrayList<>();
 	private ArrayList<Float> Scores = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 		int minute = cal.get(Calendar.MINUTE);
 		int second = cal.get(Calendar.SECOND);
 		this.heading = heading;
-		_fileName = WorkoutData.UserName + "_" + workoutName + "_" + "FullVersion" + "_" + (month) + "-" + day + "-" + year + "_[" + hour + "h~" + minute + "m~" + second + "s]_CSV.csv";
+		_fileName = WorkoutData.UserName + "_" + workoutName + "_" + (month) + "-" + day + "-" + year + "_[" + hour + "h~" + minute + "m~" + second + "s]_CSV.csv";
 		uploadToAmazonBucket = new UploadToAmazonBucket(_context);
 	}
 
@@ -55,39 +56,39 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 		dataQueue.add(data);
 
 	}
+
+	//public void saveAllData(Float Duration, Float Smoothness, Integer Reps, String Hand) {
 	public void saveAllData(Float Duration,Float Score,ArrayList<Float> Durations, ArrayList<Float> Scores, Integer Reps, String Hand) {
+        //Save to context for weekly record
+        try
+        {
+            User user = WorkoutData.UserData;
+            Log.d("Save to WO Context","Name: "+user.getName());
+            String doneActivities = user.getActivitiesDone();
+            doneActivities+="WO_"+_workoutName+":";
+            doneActivities+=""+cal.get(Calendar.YEAR)+"_"+cal.get(Calendar.MONTH) +"_"+cal.get(Calendar.DATE) +"\n";
+            user.setActivitiesDone(doneActivities);
+            final SaveAndWriteUserInfo saveAndWriteUserInfo = new SaveAndWriteUserInfo(_context);
+            saveAndWriteUserInfo.saveUserWorkouts(user);
+            Log.d("Save to WO Context","ActivitiesName: "+user.getActivitiesDone());
+            Log.d("Save to WO Context","Record finished");
+        }
+        catch(Exception e)
+        {Log.d("Save to WO Context","Record failed");}
+
 		this.Duration = Duration;
 		this.Durations = Durations;
 		this.Score = Score;
 		this.Scores = Scores;
-		Log.d("Size","Scores..."+Scores.size());
-		Log.d("Size","Durations..."+Durations.size());
 		this.Reps = Reps;
 		this.Hand = Hand;
 		this.execute();
 	}
-	/*
-	public void saveAllData(Float Duration,ArrayList<Float> Durations, Float Smoothness, Integer Reps, String Hand) {
-		this.Duration = Duration;
-		this.Durations = Durations;
-		this.Smoothness = Smoothness;
-		Log.d("Size","Durations..."+Durations.size());
-		this.Reps = Reps;
-		this.Hand = Hand;
-		this.execute();
-	}
-	public void saveAllData(Float Duration,Float Smoothness,ArrayList<Float> Smoothnesses,  Integer Reps, String Hand) {
-		this.Duration = Duration;
-		this.Smoothness = Smoothness;
-		this.Smoothnesses = Smoothnesses;
-		Log.d("Size","Smoothnesses..."+Smoothnesses.size());
-		this.Reps = Reps;
-		this.Hand = Hand;
-		this.execute();
-	}
-	*/
+
 	@Override
 	protected Void doInBackground(Void... voids) {
+
+        //Save to file
 		try {
 			File fileParent = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "RehabApplicationCSV2019");
 			if (!fileParent.exists()) {
@@ -101,6 +102,7 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 			}
 			try {
 				file.createNewFile();
+				User user = WorkoutData.UserData;
 				writer = new PrintWriter(new FileWriter(file, true));
 
 				String d = "";
@@ -128,7 +130,8 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 						+ "Duration:" + this.Duration + ","+d
 						+ "Score:" + this.Score + ","+s
 						+ "Reps:" + this.Reps + ","
-						+ "Hand:" + this.Hand
+						+ "Hand:" + this.Hand+","
+                        + "ProgramStart: "+ user.getYear()+"_"+user.getMonth()+"_"+user.getDay()
 						+ "\n" + heading + "\n");
 				for (int i = 0; i < dataQueue.size(); i++) {
 					for (int j = 0; j < dataQueue.get(i).length; j++) {

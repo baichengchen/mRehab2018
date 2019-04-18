@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.example.matt2929.strokeappdec2017.WorkoutsView.PlayGifView;
 
 public class WorkoutPreviewActivity extends AppCompatActivity {
 
+    String TAG = this.getClass().getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class WorkoutPreviewActivity extends AppCompatActivity {
 	    videoView.setImageResource(R.drawable.skeletondance);
 	    videoView.setScaleX(3);
 	    videoView.setScaleY(3);
+	    Log.d(TAG,"WorkoutName:"+workoutName);
 	    switch (workoutName) {
 		    case "Horizontal Bowl":
 			    break;

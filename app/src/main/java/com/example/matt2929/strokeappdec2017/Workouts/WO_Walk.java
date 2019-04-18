@@ -8,8 +8,6 @@ import com.example.matt2929.strokeappdec2017.R;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 import com.example.matt2929.strokeappdec2017.Utilities.ZeroCrossCalculation;
 
-import java.util.ArrayList;
-
 /**
  * Created by matt2929 on 12/22/17.
  */
@@ -22,7 +20,7 @@ public class WO_Walk extends SensorWorkoutAbstract {
 	Long startRep = 0L;
 	int repCount = 0;
 	Long walkLength = 10000L;
-	Long cooldownLength = 7000L;
+	Long cooldownLength = 10000L;
 	Long cooldownStart = 0L;
 
 	public WO_Walk(String Name, Integer reps, SpeechTrigger speechTrigger, EndRepTrigger endRepTrigger, SFXPlayer sfxPlayer, OutputWorkoutData outputWorkoutData, OutputWorkoutStrings outputWorkoutStrings) {
@@ -80,10 +78,5 @@ public class WO_Walk extends SensorWorkoutAbstract {
 	public WorkoutScore getScore() {
 		workoutScore = new WorkoutScore("Accuracy", zeroCrossCalculation.calculateZeroCross());
 		return workoutScore;
-	}
-
-	@Override
-	public ArrayList<Float> getJerkScores() {
-		return zeroCrossCalculation.getZeroCrosses();
 	}
 }

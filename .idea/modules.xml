@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mRehab2019-FullVersion.iml" filepath="$PROJECT_DIR$/mRehab2019-FullVersion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mRehab2019-BaselineVersion.iml" filepath="$PROJECT_DIR$/mRehab2019-BaselineVersion.iml" />
     </modules>
   </component>
 </project>

@@ -46,15 +46,11 @@ public class ZeroCrossCalculation {
 		return averageTime(zeroCrosses);
 	}
 
-	private Float averageTime(ArrayList<Float> floats) {
+	public Float averageTime(ArrayList<Float> floats) {
 		Float sum = 0f;
 		for (int i = 0; i < floats.size(); i++) {
 			sum += floats.get(i);
 		}
 		return ((sum / floats.size()));
-	}
-
-	public ArrayList<Float> getZeroCrosses() {
-		return zeroCrosses;
 	}
 }

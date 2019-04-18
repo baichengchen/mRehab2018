@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 public class GoalsAndRepsActivity extends
 		AppCompatActivity {
+
+    String TAG = this.getClass().getName();
 	SaveHistoricalGoals saveHistoricalGoals;
 	SaveHistoricalReps saveHistoricalReps;
 	Integer reps = 10;
@@ -38,7 +40,6 @@ public class GoalsAndRepsActivity extends
 		Intent oldIntent = getIntent();
 		String WorkoutHand = oldIntent.getStringExtra("Hand");
 		String WorkoutName = oldIntent.getStringExtra("Workout");
-		String WorkoutType = oldIntent.getStringExtra("WorkoutType");
 		newIntent = oldIntent.setClass(getApplicationContext(), WorkoutPreviewActivity.class);
 		saveHistoricalGoals = new SaveHistoricalGoals(getApplicationContext());
 		saveHistoricalReps = new SaveHistoricalReps(getApplicationContext(), WorkoutData.UserName);
@@ -82,7 +83,8 @@ public class GoalsAndRepsActivity extends
 		startWorkout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				newIntent.putExtra("Reps", reps);
+				updateReps((3));
+				newIntent.putExtra("Reps", 3);
 				startActivity(newIntent);
 			}
 		});

@@ -8,7 +8,7 @@ import android.view.WindowManager;
 import com.example.matt2929.strokeappdec2017.R;
 
 public class PostWorkoutGoalsActivity extends AppCompatActivity {
-
+    String TAG = this.getClass().getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

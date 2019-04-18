@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
+    String TAG = this.getClass().getName();
 	int currentSelection = -1;
 	List<String> userStrings = new ArrayList<>();
 	List<User> userList = new ArrayList<>();

@@ -18,9 +18,12 @@ import static com.example.matt2929.strokeappdec2017.Values.WorkoutData.progressC
 import static com.example.matt2929.strokeappdec2017.Values.WorkoutData.progressLocal;
 
 public class LoadingScreenActivity extends AppCompatActivity {
+    String TAG = this.getClass().getName();
+
 	TextView textView;
 	ProgressBar progressBarCloud, progressBarLocal;
 	Button abortButton;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

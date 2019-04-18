@@ -7,8 +7,6 @@ import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.SpeechTrigger;
 import com.example.matt2929.strokeappdec2017.Utilities.JerkScoreCalculation;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 
-import java.util.ArrayList;
-
 /**
  * Created by matt2929 on 12/20/17.
  */
@@ -78,11 +76,6 @@ public class WO_PickUpVertical extends SensorWorkoutAbstract {
 	public WorkoutScore getScore() {
 		workoutScore = new WorkoutScore("Jerk", jerkScoreCalculation.CalculateJerkAverage());
 		return workoutScore;
-	}
-
-	@Override
-	public ArrayList<Float> getJerkScores() {
-		return jerkScoreCalculation.GetAllJerks();
 	}
 
 	@Override

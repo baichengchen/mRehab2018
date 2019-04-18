@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -30,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class PostWorkoutReportActivity extends AppCompatActivity {
+    String TAG = this.getClass().getName();
 	private final int CHECK_CODE = 0x1;
 	ArrayList<WorkoutJSON> workoutJSONS;
 	SaveWorkoutJSON saveWorkoutJSON;
@@ -82,7 +82,6 @@ public class PostWorkoutReportActivity extends AppCompatActivity {
 		String accuracyWording = "";
 		for (WorkoutJSON workoutJSON : workoutJSONS) {
 			if (workoutJSON.getWorkoutName().equals(getIntent().getStringExtra("Workout"))) {
-			    Log.d("Filtering JSON",workoutJSON.toString());
 				workoutJSONSFiltered.add(workoutJSON);
 			}
 		}
@@ -98,9 +97,7 @@ public class PostWorkoutReportActivity extends AppCompatActivity {
 				break;
 			}
 		}
-		Log.d("WorkoutJSON",workoutJSONSFiltered.toString());
 		Collections.sort(workoutJSONSFiltered, workoutJSONComparator);
-
 		thisWorkout = workoutJSONSFiltered.get(0);
 		betterReps = false;
 		betterSmoothness = false;
@@ -141,7 +138,7 @@ public class PostWorkoutReportActivity extends AppCompatActivity {
 		checkTTS();
 
 		if (betterReps || betterSmoothness || betterTime) {
-			sfxPlayer.playSFX();
+			//sfxPlayer.playSFX();
 		}
 
 		button.setOnClickListener(new View.OnClickListener() {
@@ -170,11 +167,13 @@ public class PostWorkoutReportActivity extends AppCompatActivity {
 				_Text2Speech.addInitListener(new SpeechInitListener() {
 					@Override
 					public void onInit() {
+					    /*
 						_Text2Speech.speak("Number of Reps " + floatToHundreth(thisWorkout.getReps()), WorkoutData.TTS_WORKOUT_DESCRIPTION);
 						_Text2Speech.silence(1000);
 						_Text2Speech.speak("Average Time " + floatToHundreth(thisWorkout.getDuration()), WorkoutData.TTS_WORKOUT_DESCRIPTION);
 						_Text2Speech.silence(1000);
 						_Text2Speech.speak("Average Smoothness " + floatToHundreth(thisWorkout.getAccuracy()), WorkoutData.TTS_WORKOUT_DESCRIPTION);
+						*/
 					}
 				});
 

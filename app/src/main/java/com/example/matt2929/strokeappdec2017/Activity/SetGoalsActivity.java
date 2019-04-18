@@ -30,9 +30,8 @@ public class SetGoalsActivity extends AppCompatActivity {
 	int workoutIndex = 0;
 	ArrayList<String> workoutStrings = new ArrayList<>();
 	String choice = "Increase Reps";
-
+    String TAG = this.getClass().getName();
 	@Override
-
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_set_goals);

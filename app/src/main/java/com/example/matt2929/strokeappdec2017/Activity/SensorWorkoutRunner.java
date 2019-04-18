@@ -20,11 +20,10 @@ import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.OutputWorkoutS
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.SpeechCompleteListener;
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.SpeechInitListener;
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.SpeechTrigger;
-import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveActivitiesDoneToday;
+import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveActivitiesDoneWeek;
 import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveHistoricalReps;
 import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveTouchAndSensor;
 import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveWorkoutJSON;
-import com.example.matt2929.strokeappdec2017.Utilities.JerkScoreCalculation;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 import com.example.matt2929.strokeappdec2017.Utilities.Text2Speech;
 import com.example.matt2929.strokeappdec2017.Values.WorkoutData;
@@ -46,6 +45,7 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 
 	private final int CHECK_CODE = 0x1;
 	//~~~~~~~~~~~~~~~~~~~~~~~
+    String TAG = this.getClass().getName();
 	Long TimeStartWorkout = System.currentTimeMillis();
 	Long TimeOfRep = System.currentTimeMillis();
 	//Workout Attributes~~~
@@ -66,7 +66,7 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 	private Boolean _WorkoutInProgress = false;
 	private ArrayList<Float> saveDurations = new ArrayList<>();
 	private ArrayList<Float> saveScores = new ArrayList<>();
-	private SaveActivitiesDoneToday _SaveActivitiesDoneToday;
+	private SaveActivitiesDoneWeek _SaveActivitiesDoneWeek;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 		_SaveWorkoutJSON = new SaveWorkoutJSON(getApplicationContext());
 		_SFXPlayer = new SFXPlayer(getApplicationContext());
 		SetupWorkout(_WorkoutName, _WorkoutReps);
-		_SaveActivitiesDoneToday = new SaveActivitiesDoneToday(getApplicationContext());
+        _SaveActivitiesDoneWeek = new SaveActivitiesDoneWeek(getApplicationContext());
 		checkTTS();
 	}
 
@@ -126,7 +126,7 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 				_Text2Speech.addSpeechCompleteListener(new SpeechCompleteListener() {
 					@Override
 					public void Spoke(String s) {
-						Log.e("TTS: ", s);
+						Log.e(TAG+"TTS: ", s);
 						if (s.equals(WorkoutData.TTS_WORKOUT_DESCRIPTION)) {
 							_Text2Speech.silence(2000);
 							_Text2Speech.speak("Start When I Say, Begin", WorkoutData.TTS_WORKOUT_READY);
@@ -270,6 +270,7 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 				break;
 			}
 		}
+		reps = 3;
 		if (_WorkoutDescription.getName().equals("Horizontal Bowl")) {
 			setupSensorsLinear();
 			_CurrentWorkout = new WO_PickUpHorizontal(WorkoutName, reps, speechTrigger, endRepTrigger, _SFXPlayer, outputWorkoutData, outputWorkoutStrings);
@@ -313,10 +314,10 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 		Float duration = averageTime(saveDurations);
 		Float score = averageTime(saveScores);
 
-		_SaveTouchAndSensor.saveAllData(duration, score, saveDurations,saveScores, _CurrentWorkout.getReps(), _WorkoutHand);
-		_SaveWorkoutJSON.addNewWorkout(_CurrentWorkout.getName(), _WorkoutHand, duration,saveDurations, score,saveScores, _CurrentWorkout.getReps());
-		_SaveActivitiesDoneToday.updateWorkout(_WorkoutName);
-		Intent intent = getIntent();
+
+		_SaveTouchAndSensor.saveAllData(duration, score, saveDurations, saveScores, _CurrentWorkout.getReps(), _WorkoutHand);
+		_SaveWorkoutJSON.addNewWorkout(_CurrentWorkout.getName(), _WorkoutHand, duration, _CurrentWorkout.getScore().getScore(), _CurrentWorkout.getReps());
+        Intent intent = getIntent();
 		intent.setClass(getApplicationContext(), LoadingScreenActivity.class);
 		startActivity(intent);
 

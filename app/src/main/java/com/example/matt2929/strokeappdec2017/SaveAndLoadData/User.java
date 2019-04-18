@@ -9,6 +9,54 @@ public class User {
     int Age = -1;
     int hand = -1;
     String Goals = "000";
+
+    public String getActivitiesDone() {
+        return activitiesDone;
+    }
+
+    public void setActivitiesDone(String activitiesDone) {
+        this.activitiesDone = activitiesDone;
+    }
+
+    String activitiesDone = "000";
+
+
+    public String getDate()
+    {
+        return getYear()+"-"+getMonth()+"-"+getDay();
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    //Baseline start date
+    int day = -1;
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    int month = -1;
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    int year = -1;
+
     public User(){
 
     }

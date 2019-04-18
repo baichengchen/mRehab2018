@@ -8,8 +8,6 @@ import com.example.matt2929.strokeappdec2017.R;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 import com.example.matt2929.strokeappdec2017.Utilities.ZeroCrossCalculation;
 
-import java.util.ArrayList;
-
 /**
  * Created by matt2929 on 12/21/17.
  */
@@ -112,10 +110,6 @@ public class WO_Pour extends SensorWorkoutAbstract {
 		return workoutScore;
 	}
 
-	@Override
-	public ArrayList<Float> getJerkScores() {
-		return zeroCrossCalculation.getZeroCrosses();
-	}
 	@Override
 	public void outputData(float[] f) {
 		super.outputData(f);

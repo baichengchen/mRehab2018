@@ -2,7 +2,6 @@ package com.example.matt2929.strokeappdec2017.Workouts;
 
 import android.graphics.Color;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,7 +10,6 @@ import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.EndRepTrigger;
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.OutputWorkoutData;
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.OutputWorkoutStrings;
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.SpeechTrigger;
-import com.example.matt2929.strokeappdec2017.R;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ public class WO_PhoneNumber extends TouchWorkoutAbstract {
 	int[] phoneNumber = new int[10];
 	boolean[] phoneNumberProg = new boolean[10];
 	Long delayTime = 4000l;
-	float incorrect = 0;
+	int incorrect = 0;
 
 	public WO_PhoneNumber(String Name, Integer reps, ArrayList<View> views, EndRepTrigger endRepTrigger, SpeechTrigger speechTrigger, SFXPlayer sfxPlayer, OutputWorkoutData outputWorkoutData, OutputWorkoutStrings outputWorkoutStrings) {
 		super.TouchWorkout(Name, reps, views, endRepTrigger, speechTrigger, sfxPlayer, outputWorkoutData, outputWorkoutStrings);
@@ -53,7 +51,7 @@ public class WO_PhoneNumber extends TouchWorkoutAbstract {
 	}
 
 	@Override
-	public boolean TouchIn(float x, float y, MotionEvent me) {
+	public boolean TouchIn(float x, float y) {
 		for (Button button : buttons) {
 			if (x >= button.getLeft() && x < button.getRight()) {
 				if (y > button.getTop() && y < button.getBottom()) {
@@ -86,9 +84,9 @@ public class WO_PhoneNumber extends TouchWorkoutAbstract {
 			for (int i = 0; i < phoneNumberProg.length; i++) {
 				if (phoneNumberProg[i] == false) {
 					if (phoneNumber[i] == number) {
+						incorrect++;
 						phoneNumberProg[i] = true;
 						quickChange(b, Color.GREEN);
-						//sfxPlayer.loadAndPlay(R.raw.beep);
 						whatTyped.setText(whatTyped.getText().toString() + numS);
 						if (i == 9) {
 							completed++;
@@ -102,7 +100,6 @@ public class WO_PhoneNumber extends TouchWorkoutAbstract {
 						break;
 					} else {
 						quickChange(b, Color.RED);
-						incorrect++;
 						break;
 					}
 				}
@@ -113,12 +110,10 @@ public class WO_PhoneNumber extends TouchWorkoutAbstract {
 	public void quickChange(final Button button, final Integer color) {
 		Handler handler = new Handler();
 		button.setBackgroundColor(color);
-		whatTyped.setTextColor(color);
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				button.setBackground(button.getContext().getResources().getDrawable(android.R.drawable.btn_default));
-				whatTyped.setTextColor(Color.BLACK);
 			}
 		}, 100);
 	}
@@ -151,15 +146,9 @@ public class WO_PhoneNumber extends TouchWorkoutAbstract {
 
 	@Override
 	public WorkoutScore getScore() {
-		Float touches = Float.valueOf(10 * this.reps);
-		return new WorkoutScore("Accuracy", ((touches) / ((touches) + incorrect)) * 100f);
+		return new WorkoutScore("Accuracy", ((((float) reps * 10f) - (float) incorrect)) / ((float) reps * 10f) * 100f);
 	}
-/*
-	@Override
-	public ArrayList<Float> getScores() {
-		return accuracies;
-	}
-*/
+
 	public boolean checkDone() {
 		return workoutComplete;
 	}

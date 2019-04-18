@@ -29,54 +29,111 @@ public class SaveAndWriteUserInfo {
 
 	public boolean isUserCreated() {
 		List<File> files = getAllFiles(context.getFilesDir());
+        Log.d("ContextSize","Context file DIR: "+context.getFilesDir().getAbsolutePath());
+		Log.d("ContextSize","Context file size: "+files.size());
 		return (files.size() > 0);
 	}
 
 	public User getUser() {
+        Log.d("Readinguser","start reading");
 		List<File> files = getAllFiles(context.getFilesDir());
+        Log.d("Readinguser","File list size: "+files.size());
 		for (File f : files) {
+            Log.d("Readinguser","File  name: "+f.getAbsolutePath());
 			User user = new User();
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(f));
-                String line="";
-                while ((line = br.readLine()) != null){
-                    if(line.contains("Name")){
-                        user.setName(line.split(":")[1]);
-                    }else if(line.contains("Age")){
-                        user.setAge(Integer.valueOf(line.split(":")[1]));
-                    }else if(line.contains("Affected")){
-                        user.setHand(Integer.valueOf(line.split(":")[1]));
-                    }else if(line.contains("Goals")){
-                        user.setGoals(line.split(":")[1]);
-                    }else{
+			String filename = f.getName();
+			if(filename.contains("USER_")) {
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader(f));
+                    String line = "";
+                    String wos = "";
+                    while ((line = br.readLine()) != null) {
 
+                        Log.d("Readinguser", line);
+                        if (line.contains("Name")) {
+                            user.setName(line.split(":")[1]);
+                        } else if (line.contains("Age") || line.contains("age")) {
+                            user.setAge(Integer.valueOf(line.split(":")[1]));
+                        } else if (line.contains("Affected") || line.contains("affected")) {
+                            user.setHand(Integer.valueOf(line.split(":")[1]));
+                        } else if (line.contains("Goal") || line.contains("goal")) {
+                            user.setGoals(line.split(":")[1]);
+                        } else if (line.contains("Month") || line.contains("month")) {
+                            user.setMonth(Integer.parseInt(line.split(":")[1]));
+                        } else if (line.contains("Day") || line.contains("day")) {
+                            user.setDay(Integer.parseInt(line.split(":")[1]));
+                        } else if (line.contains("Year") || line.contains("year")) {
+                            user.setYear(Integer.parseInt(line.split(":")[1]));
+                        } else if(line.contains("WO_") || line.contains("wo_")) {
+                            wos+=line+"\n";
+                            user.setActivitiesDone(wos);
+                        }
+                        else {
+                        }
                     }
+                    br.close();
+                    Log.d("Readinguser", "file ended");
+                    return user;
+                } catch (FileNotFoundException fe) {
+                    fe.printStackTrace();
+                    Log.d("ReadingUser", "FException");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d("ReadingUser", "Exception");
                 }
-                br.close();
-                return user;
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e){
-
             }
         }
 		return null;
 	}
     public void saveUser(User newUser){
-        String filename = "USER_Full_" + newUser.getName() + "_" + newUser.getHand() + ".txt";
+        String filename = "UserActivities_"+newUser.getName()+"_"+newUser.getHand()+".txt";
         String string = "Name:"+newUser.getName();
         string += ("\nAge:"+newUser.getAge());
         string += ("\nAffected:"+newUser.getHand());
         string += ("\nGoals:"+newUser.getGoals());
+        string += ("\nYear:"+newUser.getYear());
+        string += ("\nMonth:"+newUser.getMonth());
+        string += ("\nDay:"+newUser.getDay());
+        string += ("\nDay:"+newUser.getDay());
+        string += ("\n"+newUser.getActivitiesDone());
+        Log.d("SavingUserWO_1",string);
         FileOutputStream outputStream;
         try {
             outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
             outputStream.write(string.getBytes());
+            outputStream.flush();
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
+
+            Log.d("FailureToSave","Context file:"+filename);
             Toast.makeText(context,"Failure to save",Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void saveUserWorkouts(User newUser){
+        String filename = "USER_"+newUser.getName()+
+                            "_"+newUser.getHand()+"_workoutsForWeek"+
+                            ".txt";
+        Log.d("SavingUserWO",filename);
+        String string = "Name:"+newUser.getName();
+        string += ("\nAge:"+newUser.getAge());
+        string += ("\nAffected:"+newUser.getHand());
+        string += ("\nGoals:"+newUser.getGoals());
+        string += ("\nYear:"+newUser.getYear());
+        string += ("\nMonth:"+newUser.getMonth());
+        string += ("\nDay:"+newUser.getDay());
+        string += ("\n"+newUser.getActivitiesDone());
+        Log.d("SavingUserWO",string);
+        FileOutputStream outputStream;
+        try {
+            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(string.getBytes());
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("FailureToSave","Context file:"+filename);
+            Toast.makeText(context,"FailureToSave",Toast.LENGTH_SHORT).show();
         }
     }
     private List<File> getAllFiles(File parentDir) {
@@ -87,7 +144,9 @@ public class SaveAndWriteUserInfo {
             File file = files.remove();
             if (file.isDirectory()) {
                 files.addAll(Arrays.asList(file.listFiles()));
-            } else if (file.getName().contains("USER") && file.getName().contains("Full")) {
+            } else if (file.getName().contains("USER")) {
+                inFiles.add(file);
+            } else if (file.getName().contains("UserActivities")) {
                 inFiles.add(file);
             }
         }

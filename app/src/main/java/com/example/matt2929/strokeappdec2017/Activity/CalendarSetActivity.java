@@ -26,6 +26,8 @@ import com.example.matt2929.strokeappdec2017.SaveAndLoadData.SaveCalendarDateJSO
 import java.util.Calendar;
 
 public class CalendarSetActivity extends AppCompatActivity {
+    String TAG = this.getClass().getName();
+
 	CalendarView calendarPicker;
 	TimePicker timePicker;
 	Button continueButton;

@@ -7,8 +7,6 @@ import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.SpeechTrigger;
 import com.example.matt2929.strokeappdec2017.Utilities.AverageValue;
 import com.example.matt2929.strokeappdec2017.Utilities.SFXPlayer;
 
-import java.util.ArrayList;
-
 /**
  * Created by matt2929 on 1/4/18.
  */
@@ -49,7 +47,6 @@ public abstract class WorkoutAbstract {
 	public boolean isWorkoutComplete() {
 		return workoutComplete;
 	}
-
 
 	public WorkoutScore getScore() {
 		return new WorkoutScore("Null", -1);

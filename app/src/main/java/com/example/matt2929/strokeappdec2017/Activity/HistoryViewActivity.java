@@ -32,6 +32,9 @@ import java.util.Comparator;
  */
 public class HistoryViewActivity extends AppCompatActivity {
 
+    String TAG = this.getClass().getName();
+
+
 	GraphView graphView;
 	SaveWorkoutJSON saveWorkoutJson;
 	String workoutName = "";
@@ -115,6 +118,7 @@ public class HistoryViewActivity extends AppCompatActivity {
 			for (WorkoutDescription workoutDescription : WorkoutData.WORKOUT_DESCRIPTIONS) {
 				if (workoutDescription.getName().equals(workoutName)) {
 					color = workoutDescription.getColor();
+
 				}
 			}
 		} else {
@@ -125,20 +129,18 @@ public class HistoryViewActivity extends AppCompatActivity {
 		graphLeft.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-                Log.d("WorkOutHistoryTag", new String(workoutStrings.size()+""));
-                leftHandView();
-                handToGraph = "Left";
-                setUpGraph(workoutJSONS, workoutType);
+				leftHandView();
+				handToGraph = "Left";
+				setUpGraph(workoutJSONS, workoutType);
 			}
 		});
 
 		graphRight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-                Log.d("WorkOutHistoryTag", new String(workoutStrings.size()+""));
-                rightHandView();
-                handToGraph = "Right";
-                setUpGraph(workoutJSONS, workoutType);
+				rightHandView();
+				handToGraph = "Right";
+				setUpGraph(workoutJSONS, workoutType);
 			}
 		});
 		nextWorkout.setOnClickListener(new View.OnClickListener() {
@@ -147,11 +149,6 @@ public class HistoryViewActivity extends AppCompatActivity {
 				workoutIndex++;
 				if (workoutIndex >= workoutStrings.size()) {
 					workoutIndex = 0;
-				}
-				if(workoutStrings.size() == 0)
-				{
-					Log.d("WorkoutHMap","workout strings.size == 0");
-					return;
 				}
 				workoutName = workoutStrings.get(workoutIndex);
 				for (WorkoutDescription workoutDescription : WorkoutData.WORKOUT_DESCRIPTIONS) {
@@ -175,13 +172,8 @@ public class HistoryViewActivity extends AppCompatActivity {
 			public void onClick(View view) {
 				workoutIndex--;
 				if (workoutIndex < 0) {
-					workoutIndex = 0;
+					workoutIndex = workoutStrings.size() - 1;
 				}
-                if(workoutStrings.size() == 0)
-                {
-                    Log.d("WorkoutHMap","workout strings.size == 0");
-                    return;
-                }
 				workoutName = workoutStrings.get(workoutIndex);
 				for (WorkoutDescription workoutDescription : WorkoutData.WORKOUT_DESCRIPTIONS) {
 					if (workoutDescription.getName().equals(workoutName)) {
@@ -321,7 +313,7 @@ public class HistoryViewActivity extends AppCompatActivity {
 			dataPoints[i] = new DataPoint(i + 1, filteredWorkoutJSONS.get(i).getDuration());
 		}
 		LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
-		Log.e("DATA", "" + dataPoints.length);
+		Log.e(TAG+"DATA", "" + dataPoints.length);
 		return series;
 	}
 

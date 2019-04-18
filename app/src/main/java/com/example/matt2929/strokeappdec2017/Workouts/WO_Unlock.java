@@ -1,7 +1,6 @@
 package com.example.matt2929.strokeappdec2017.Workouts;
 
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.matt2929.strokeappdec2017.ListenersAndTriggers.EndRepTrigger;
@@ -33,7 +32,7 @@ public class WO_Unlock extends TouchWorkoutAbstract {
 	}
 
 	@Override
-	public boolean TouchIn(float x, float y, MotionEvent me) {
+	public boolean TouchIn(float x, float y) {
 		if (WorkoutInProgress) {
 			outputData(new float[]{x, y});
 			double angle = Math.atan((y / x));
@@ -61,7 +60,6 @@ public class WO_Unlock extends TouchWorkoutAbstract {
 		countReps++;
 		speechTrigger.speak("" + countReps);
 		zeroCrossCalculation.endRep();
-		//accuracies.add(zeroCrossCalculation.getZeroCrosses())
 		endRepTrigger.endRep();
 		if (countReps == reps) {
 			workoutComplete = true;
@@ -86,8 +84,6 @@ public class WO_Unlock extends TouchWorkoutAbstract {
 	public WorkoutScore getScore() {
 		return new WorkoutScore("Smoothness", zeroCrossCalculation.calculateZeroCross());
 	}
-	@Override
-	public ArrayList<Float> getScores() {
-		return zeroCrossCalculation.getZeroCrosses();
-	}
+
+
 }
