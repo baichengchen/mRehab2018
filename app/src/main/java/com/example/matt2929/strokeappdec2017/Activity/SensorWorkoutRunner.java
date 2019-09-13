@@ -64,8 +64,7 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 	private SaveTouchAndSensor _SaveTouchAndSensor;
 	private SaveWorkoutJSON _SaveWorkoutJSON;
 	private Boolean _WorkoutInProgress = false;
-	private ArrayList<Float> saveDurations = new ArrayList<>();
-	private ArrayList<Float> saveScores = new ArrayList<>();
+	private ArrayList<Long> saveDurations = new ArrayList<>();
 	private SaveActivitiesDoneWeek _SaveActivitiesDoneWeek;
 
 	@Override
@@ -246,8 +245,7 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 		EndRepTrigger endRepTrigger = new EndRepTrigger() {
 			@Override
 			public void endRep() {
-				saveDurations.add(((float) (System.currentTimeMillis() - TimeOfRep))/1000);
-				saveScores.add(_CurrentWorkout.getScore().getScore());
+				saveDurations.add(System.currentTimeMillis() - TimeOfRep);
 				TimeOfRep = System.currentTimeMillis();
 			}
 		};
@@ -311,11 +309,8 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 	public void endWorkoutSequence() {
 		_SFXPlayer.killAll();
 		_SaveHistoricalReps.updateWorkout(_CurrentWorkout.getName(), _WorkoutReps);
-		Float duration = averageTime(saveDurations);
-		Float score = averageTime(saveScores);
-
-
-		_SaveTouchAndSensor.saveAllData(duration, score, saveDurations, saveScores, _CurrentWorkout.getReps(), _WorkoutHand);
+		Float duration = averageTime(saveDurations) / (float) (1000);
+		_SaveTouchAndSensor.saveAllData(duration, _CurrentWorkout.getScore().getScore(), _CurrentWorkout.getReps(), _WorkoutHand);
 		_SaveWorkoutJSON.addNewWorkout(_CurrentWorkout.getName(), _WorkoutHand, duration, _CurrentWorkout.getScore().getScore(), _CurrentWorkout.getReps());
         Intent intent = getIntent();
 		intent.setClass(getApplicationContext(), LoadingScreenActivity.class);
@@ -323,12 +318,12 @@ public class SensorWorkoutRunner extends AppCompatActivity implements SensorEven
 
 	}
 
-	public float averageTime(ArrayList<Float> floats) {
+	public float averageTime(ArrayList<Long> longs) {
 		float sum = 0L;
-		for (int i = 0; i < floats.size(); i++) {
-			sum += floats.get(i);
+		for (int i = 0; i < longs.size(); i++) {
+			sum += longs.get(i);
 		}
-		float value = sum / floats.size() ;
+		float value = ((sum / (Long.valueOf(longs.size()))));
 		return value;
 	}
 }

@@ -60,7 +60,6 @@ public class TouchWorkoutRunner extends AppCompatActivity {
 	private SaveWorkoutJSON _SaveWorkoutJSON;
 	private Boolean _WorkoutInProgress = false;//Is workout currently running?
 	private ArrayList<Float> saveDurations = new ArrayList<>();
-	private ArrayList<Float> saveScores = new ArrayList<>();
 	private SaveActivitiesDoneWeek _SaveActivitiesDoneWeek;
 
 	@Override
@@ -186,8 +185,7 @@ public class TouchWorkoutRunner extends AppCompatActivity {
 		EndRepTrigger endRepTrigger = new EndRepTrigger() {
 			@Override
 			public void endRep() {
-				saveDurations.add((Float.valueOf(System.currentTimeMillis() - TimeOfRep))/1000);
-				saveScores.add(_CurrentWorkout.getScore().getScore());
+				saveDurations.add(Float.valueOf(System.currentTimeMillis() - TimeOfRep));
 				TimeOfRep = System.currentTimeMillis();
 			}
 		};
@@ -301,12 +299,8 @@ public class TouchWorkoutRunner extends AppCompatActivity {
 	private void workoutEndSequence() {
 		_SFXPlayer.killAll();
 		_SaveHistoricalReps.updateWorkout(_CurrentWorkout.getName(), _WorkoutReps);
-
-		float duration = averageTime(saveDurations);
-		float score = averageTime(saveScores);
-
-		_SaveTouchAndSensor.saveAllData(duration, score,saveDurations, saveScores, _CurrentWorkout.getReps(), _WorkoutHand);
-
+		float duration = averageTime(saveDurations) / (float) (1000);
+		_SaveTouchAndSensor.saveAllData(duration, _CurrentWorkout.getScore().getScore(), _CurrentWorkout.getReps(), _WorkoutHand);
 		_SaveWorkoutJSON.addNewWorkout(_CurrentWorkout.getName(), _WorkoutHand, duration, _CurrentWorkout.getScore().getScore(), _CurrentWorkout.getReps());
         Intent intent = getIntent();
 		intent.setClass(getApplicationContext(), LoadingScreenActivity.class);
