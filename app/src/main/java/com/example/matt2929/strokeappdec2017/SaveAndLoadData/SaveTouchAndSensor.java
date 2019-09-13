@@ -29,13 +29,9 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 	String heading;
 	UploadToAmazonBucket uploadToAmazonBucket;
 	Calendar cal;
-	private Float Duration, Score;
+	private Float Duration, Smoothness;
 	private Integer Reps;
 	private String Hand;
-
-
-	private ArrayList<Float> Durations = new ArrayList<>();
-	private ArrayList<Float> Scores = new ArrayList<>();
 
 	public SaveTouchAndSensor(Context context, String workoutName, String heading) {
 		_workoutName = workoutName;
@@ -57,8 +53,7 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 
 	}
 
-	//public void saveAllData(Float Duration, Float Smoothness, Integer Reps, String Hand) {
-	public void saveAllData(Float Duration,Float Score,ArrayList<Float> Durations, ArrayList<Float> Scores, Integer Reps, String Hand) {
+	public void saveAllData(Float Duration, Float Smoothness, Integer Reps, String Hand) {
         //Save to context for weekly record
         try
         {
@@ -77,9 +72,7 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
         {Log.d("Save to WO Context","Record failed");}
 
 		this.Duration = Duration;
-		this.Durations = Durations;
-		this.Score = Score;
-		this.Scores = Scores;
+		this.Smoothness = Smoothness;
 		this.Reps = Reps;
 		this.Hand = Hand;
 		this.execute();
@@ -104,31 +97,12 @@ public class SaveTouchAndSensor extends AsyncTask<Void, Void, Void> {
 				file.createNewFile();
 				User user = WorkoutData.UserData;
 				writer = new PrintWriter(new FileWriter(file, true));
-
-				String d = "";
-				for(int x = 0;x<Durations.size() && x<Reps;x++)
-				{
-					if(Durations.size() == 1) {
-						break;
-					}
-
-					d += "Duration#" +(x+1)+":"+this.Durations.get(x)+",";
-				}
-				String s = "";
-				for(int x = 0;x<Scores.size() && x<Reps;x++)
-				{
-					if(Scores.size() == 1) {
-						break;
-					}
-					s += "Score#" +(x+1)+":"+this.Scores.get(x)+",";
-				}
-
 				writer.append("Name:" + WorkoutData.UserName + ","
 						+ "Workout:" + _workoutName + ","
 						+ "Date HR:" + humanReadableTime(cal.getTimeInMillis()) + ","
 						+ "Date MS:" + cal.getTimeInMillis() + ","
-						+ "Duration:" + this.Duration + ","+d
-						+ "Score:" + this.Score + ","+s
+						+ "Duration:" + this.Duration + ","
+						+ "Smoothness:" + this.Smoothness + ","
 						+ "Reps:" + this.Reps + ","
 						+ "Hand:" + this.Hand+","
                         + "ProgramStart: "+ user.getYear()+"_"+user.getMonth()+"_"+user.getDay()
