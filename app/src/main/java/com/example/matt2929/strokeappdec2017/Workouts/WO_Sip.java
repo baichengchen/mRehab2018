@@ -27,7 +27,7 @@ public class WO_Sip extends SensorWorkoutAbstract {
 
 	public WO_Sip(String Name, Integer reps, SpeechTrigger speechTrigger, EndRepTrigger endRepTrigger, SFXPlayer sfxPlayer, OutputWorkoutData outputWorkoutData, OutputWorkoutStrings outputWorkoutStrings) {
 		super.SensorWorkout(Name, reps, speechTrigger, endRepTrigger, sfxPlayer, outputWorkoutData, outputWorkoutStrings);
-		sfxPlayer.loadSFX(R.raw.pour_water);
+		sfxPlayer.loadSFX(R.raw.pourwater);
 		sfxPlayer.loopSFX();
 		zeroCrossCalculation = new ZeroCrossCalculation();
 	}

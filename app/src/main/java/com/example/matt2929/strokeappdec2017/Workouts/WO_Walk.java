@@ -28,8 +28,9 @@ public class WO_Walk extends SensorWorkoutAbstract {
 	public WO_Walk(String Name, Integer reps, SpeechTrigger speechTrigger, EndRepTrigger endRepTrigger, SFXPlayer sfxPlayer, OutputWorkoutData outputWorkoutData, OutputWorkoutStrings outputWorkoutStrings) {
 		super.SensorWorkout(Name, reps, speechTrigger, endRepTrigger, sfxPlayer, outputWorkoutData, outputWorkoutStrings);
 		zeroCrossCalculation = new ZeroCrossCalculation();
-		sfxPlayer.loadSFX(R.raw.pour_water);
+		sfxPlayer.loadSFX(R.raw.pourwater);
 		sfxPlayer.loopSFX();
+
 	}
 
 

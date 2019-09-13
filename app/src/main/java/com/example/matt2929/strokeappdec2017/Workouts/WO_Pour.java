@@ -28,7 +28,7 @@ public class WO_Pour extends SensorWorkoutAbstract {
 
 	public WO_Pour(String Name, Integer reps, SpeechTrigger speechTrigger, EndRepTrigger endRepTrigger, SFXPlayer SFX, OutputWorkoutData outputWorkoutData, OutputWorkoutStrings outputWorkoutStrings) {
 		super.Workout(Name, reps, speechTrigger, endRepTrigger, SFX, outputWorkoutData, outputWorkoutStrings);
-		sfxPlayer.loadSFX(R.raw.pour_water);
+		sfxPlayer.loadSFX(R.raw.pourwater);
 		sfxPlayer.loopSFX();
 		zeroCrossCalculation = new ZeroCrossCalculation();
 	}
